@@ -7,7 +7,7 @@
     "build": "browserify main.js > bundle.js"
   },
   "dependencies": {
-    "@samelie/chewb-redis": "0.0.1",
+    "@samelie/chewb-redis": "*",
     "bluebird": "^3.4.6",
     "body-parser": "~1.0.0",
     "connect-busboy": "latest",
