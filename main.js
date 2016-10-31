@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-let _port = 6379
+let _port = 6380
 var server = app.listen(_port)
 
 app.get('/hmget', function(req, res) {
