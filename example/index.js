@@ -14,8 +14,14 @@ get.post(opts, function (err, res) {
 return*/
 
 const DUMMY = {
-  id: 'dog',
-  name: 'goode doogue'
+  key: 'dog',
+  value: {
+    id:'dog',
+    name:'velvet'
+  }
+}
+
+function get() {
 }
 
 function get() {
@@ -24,11 +30,12 @@ function get() {
 
 function set() {
 
-  xhr('http://rad.wtf/redis', {
+  xhr('https://rad.wtf/redis/hmset', {
       method: 'POST',
       json: true,
-      body: { foo: 'bar' },
+      body: DUMMY,
     }, function(err, data) {
+      console.log(err);
       if (err) throw err
       console.log('got ArrayBuffer result: ', data)
     })

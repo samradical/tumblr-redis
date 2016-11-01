@@ -23,6 +23,14 @@ app.use(cors());
 let _port = 6380
 var server = app.listen(_port)
 
+
+app.get('/del', function(req, res) {
+  api.del(req.query.key)
+    .then(data => {
+      res.send(data)
+    })
+})
+
 app.get('/hmget', function(req, res) {
   api.hmget(req.query.key)
     .then(data => {
@@ -43,10 +51,6 @@ app.post('/hmset', function(req, res) {
       res.send({code:500,err:err})
     })
 })
-
-app.get('/test', function(req, res) {
-  res.status(200).send('nothing to see here...');
-});
 
 app.get('/', function(req, res) {
   res.status(200).send('nothing to see here...');
