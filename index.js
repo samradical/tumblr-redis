@@ -29,6 +29,8 @@ const API = (() => {
       routes[key](router, api, options)
 
     })
+
+    return router
   }
 
   return {
