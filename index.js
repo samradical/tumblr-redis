@@ -12,7 +12,7 @@ const API = (() => {
   start a new express sever
   */
   function server(options) {
-    Server(routes(null, options))
+    Server(options)
   }
 
   /*
@@ -21,6 +21,7 @@ const API = (() => {
   function routes(router, options = {}) {
 
     options = Object.assign({}, BASE_OPTIONS, options)
+    console.log(options);
 
     router = router || express.Router()
 

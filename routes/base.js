@@ -1,9 +1,9 @@
-const {SUCCESS, ERR} = require('./constants')
+const { SUCCESS, ERR } = require('./constants')
 
-const BASE = function(router, redisApi, options ) {
+const BASE = function(router, redisApi, options) {
 
   router.post(`/${options.host}del`, function(req, res) {
-    api.del(req.query.key)
+    redisApi.del(req.body.key)
       .then(data => {
         res.send(Object.assign({}, SUCCESS))
       })
@@ -13,7 +13,7 @@ const BASE = function(router, redisApi, options ) {
   })
 
   router.post(`/${options.host}hmget`, function(req, res) {
-    api.hmget(req.body.key)
+    redisApi.hmget(req.body.key)
       .then(data => {
         res.send(data)
       })
@@ -24,7 +24,7 @@ const BASE = function(router, redisApi, options ) {
 
   router.post(`/${options.host}hmset`, function(req, res) {
     let { value, key } = req.body
-    api.hmset(key, value)
+    redisApi.hmset(key, value)
       .then(data => {
         res.send(Object.assign({}, SUCCESS))
       })
@@ -35,28 +35,28 @@ const BASE = function(router, redisApi, options ) {
 
   router.post(`/${options.host}rpush`, function(req, res) {
     let { value, key } = req.body
-    api.rpush(key, value)
+    redisApi.rpush(key, value)
       .then(data => {
         res.send(Object.assign({}, SUCCESS))
       })
       .catch(err => {
         res.send(Object.assign({}, { err: err }, ERR))
       })
-  }
+  })
 
   router.post(`/${options.host}sadd`, function(req, res) {
     let { value, key } = req.body
-    api.sadd(key, value)
+    redisApi.sadd(key, value)
       .then(data => {
         res.send(Object.assign({}, SUCCESS))
       })
       .catch(err => {
         res.send(Object.assign({}, { err: err }, ERR))
       })
-  }
+  })
 
   router.post(`/${options.host}smembers`, function(req, res) {
-    api.smembers(req.body.key)
+    redisApi.smembers(req.body.key)
       .then(data => {
         res.send(data)
       })
