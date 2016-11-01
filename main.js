@@ -13,9 +13,6 @@ const api = require('./api')
 var server;
 var app = express();
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
 app.use(bodyParser.json());
 
 app.use(cors());
@@ -23,32 +20,42 @@ app.use(cors());
 let _port = 6380
 var server = app.listen(_port)
 
+const SUCCESS = {
+  code:200
+}
+const ERR = {
+  code:500
+}
 
-app.get('/del', function(req, res) {
+
+app.post('/del', function(req, res) {
   api.del(req.query.key)
     .then(data => {
-      res.send(data)
+      res.send(Object.assign({}, SUCCESS))
+    })
+    .catch(err => {
+      res.send(Object.assign({},{err:err}, ERR))
     })
 })
 
-app.get('/hmget', function(req, res) {
-  api.hmget(req.query.key)
+app.post('/hmget', function(req, res) {
+  api.hmget(req.body.key)
     .then(data => {
       res.send(data)
+    })
+    .catch(err => {
+      res.send(Object.assign({},{err:err}, ERR))
     })
 })
 
 app.post('/hmset', function(req, res) {
-  console.log(req.body);
-  let {value} = req.body
-  console.log(typeof value);
-  console.log(value);
-  api.hmset(req.body.key, value)
+  let { value ,key} = req.body
+  api.hmset(key, value)
     .then(data => {
-      res.send(data)
+      res.send(Object.assign({}, SUCCESS))
     })
-    .catch(err=>{
-      res.send({code:500,err:err})
+    .catch(err => {
+      res.send(Object.assign({},{err:err}, ERR))
     })
 })
 

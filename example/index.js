@@ -1,9 +1,13 @@
 const xhr = require('xhr-request')
+const Q = require('bluebird')
+const R = Q.promisify(xhr);
 
-var get = require('simple-get')
+//const HOST = "https://rad.wtf/redis/"
+const HOST = "http://127.0.0.1:6380/"
+
 
 /*var opts = {
-  url: 'http://rad.wtf/redis/',
+  url: 'http://rad.wtf/',
   body: JSON.stringify({key:'test', value:'this is the POST body'})
 }
 get.post(opts, function (err, res) {
@@ -16,28 +20,43 @@ return*/
 const DUMMY = {
   key: 'dog',
   value: {
-    id:'dog',
-    name:'velvet'
+    id: 'dog',
+    name: 'velvet'
   }
 }
 
-function get() {
+function del() {
+  return R(`${HOST}del`, {
+    method: 'POST',
+    json: true,
+    query: {
+      key: 'dog'
+    },
+  }, function(err, data) {
+    console.log(err);
+    if (err) throw err
+    console.log('got ArrayBuffer result: ', data)
+  })
 }
 
 function get() {
-
+  let _h = `${HOST}hmget`
+  console.log(_h);
+  return R(_h, {
+    method: 'POST',
+    json: true,
+    body: {
+      key: DUMMY.key
+    }
+  })
 }
 
 function set() {
 
-  xhr('https://rad.wtf/redis/hmset', {
+  return R(`${HOST}hmset`, {
       method: 'POST',
       json: true,
       body: DUMMY,
-    }, function(err, data) {
-      console.log(err);
-      if (err) throw err
-      console.log('got ArrayBuffer result: ', data)
     })
     /*
       xhr('http://localhost:6379/hmset', {
@@ -54,4 +73,12 @@ function set() {
       })*/
 }
 
-set()
+get()
+  .then((d) => {
+    console.log(d);
+    console.log("Got");
+    set()
+      .then(() => {
+        console.log("SET");
+      })
+  })
