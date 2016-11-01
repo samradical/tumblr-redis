@@ -1,4 +1,4 @@
-const { SUCCESS, ERR } = require('./constants')
+const { SUCCESS, ERR, formSuccessResponse } = require('./constants')
 
 const BASE = function(router, redisApi, options) {
 
@@ -13,9 +13,14 @@ const BASE = function(router, redisApi, options) {
   })
 
   router.post(`/${options.host}hmget`, function(req, res) {
+    let { key } = req.body
+    console.log("hmget", key);
     redisApi.hmget(req.body.key)
       .then(data => {
-        res.send(data)
+        console.log("hmget sucess", key);
+        console.log(data);
+        //needs to be valid json
+        res.send(formSuccessResponse(data))
       })
       .catch(err => {
         res.send(Object.assign({}, { err: err }, ERR))
@@ -24,41 +29,60 @@ const BASE = function(router, redisApi, options) {
 
   router.post(`/${options.host}hmset`, function(req, res) {
     let { value, key } = req.body
-    redisApi.hmset(key, value)
-      .then(data => {
-        res.send(Object.assign({}, SUCCESS))
-      })
-      .catch(err => {
-        res.send(Object.assign({}, { err: err }, ERR))
-      })
+    console.log('hmset', key);
+    if (!value) {
+      res.send(Object.assign({}, ERR))
+    } else {
+      redisApi.hmset(key, value)
+        .then(data => {
+          console.log('hmset success', key);
+          res.send(Object.assign({}, SUCCESS))
+        })
+        .catch(err => {
+          res.send(Object.assign({}, { err: err }, ERR))
+        })
+    }
   })
 
   router.post(`/${options.host}rpush`, function(req, res) {
     let { value, key } = req.body
-    redisApi.rpush(key, value)
-      .then(data => {
-        res.send(Object.assign({}, SUCCESS))
-      })
-      .catch(err => {
-        res.send(Object.assign({}, { err: err }, ERR))
-      })
+    if (!value) {
+      res.send(Object.assign({}, ERR))
+    } else {
+      redisApi.rpush(key, value)
+        .then(data => {
+          res.send(Object.assign({}, SUCCESS))
+        })
+        .catch(err => {
+          res.send(Object.assign({}, { err: err }, ERR))
+        })
+    }
   })
 
   router.post(`/${options.host}sadd`, function(req, res) {
     let { value, key } = req.body
-    redisApi.sadd(key, value)
-      .then(data => {
-        res.send(Object.assign({}, SUCCESS))
-      })
-      .catch(err => {
-        res.send(Object.assign({}, { err: err }, ERR))
-      })
+    console.log('sadd', key);
+    if (!value) {
+      res.send(Object.assign({}, ERR))
+    } else {
+      redisApi.sadd(key, value)
+        .then(data => {
+          console.log('sadd success', key);
+          res.send(Object.assign({}, SUCCESS))
+        })
+        .catch(err => {
+          res.send(Object.assign({}, { err: err }, ERR))
+        })
+    }
   })
 
   router.post(`/${options.host}smembers`, function(req, res) {
-    redisApi.smembers(req.body.key)
+    let { key } = req.body
+    console.log(key);
+    redisApi.smembers(key)
       .then(data => {
-        res.send(data)
+        //needs to be valid json
+        res.send(formSuccessResponse(data))
       })
       .catch(err => {
         res.send(Object.assign({}, { err: err }, ERR))
