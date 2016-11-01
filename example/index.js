@@ -3,7 +3,7 @@ const Q = require('bluebird')
 const R = Q.promisify(xhr);
 
 //const HOST = "https://rad.wtf/redis/"
-const HOST = "http://127.0.0.1:6380/"
+const HOST = "http://127.0.0.1:6380/redis/"
 
 
 /*var opts = {

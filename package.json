@@ -1,10 +1,8 @@
 {
-  "name": "rad-redis",
+  "name": "@samelie/rad-redis",
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "start": "node main.js",
-    "build": "browserify main.js > bundle.js"
   },
   "dependencies": {
     "@samelie/chewb-redis": "*",
