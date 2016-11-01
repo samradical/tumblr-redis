@@ -33,6 +33,28 @@ const BASE = function(router, redisApi, options ) {
       })
   })
 
+  router.post(`/${options.host}rpush`, function(req, res) {
+    let { value, key } = req.body
+    api.rpush(key, value)
+      .then(data => {
+        res.send(Object.assign({}, SUCCESS))
+      })
+      .catch(err => {
+        res.send(Object.assign({}, { err: err }, ERR))
+      })
+  }
+
+  router.post(`/${options.host}sadd`, function(req, res) {
+    let { value, key } = req.body
+    api.sadd(key, value)
+      .then(data => {
+        res.send(Object.assign({}, SUCCESS))
+      })
+      .catch(err => {
+        res.send(Object.assign({}, { err: err }, ERR))
+      })
+  }
+
   router.post(`/${options.host}smembers`, function(req, res) {
     api.smembers(req.body.key)
       .then(data => {
