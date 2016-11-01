@@ -44,6 +44,10 @@ app.post('/hmset', function(req, res) {
     })
 })
 
+app.get('/test', function(req, res) {
+  res.status(200).send('nothing to see here...');
+});
+
 app.get('/', function(req, res) {
   res.status(200).send('nothing to see here...');
 });

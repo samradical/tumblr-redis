@@ -2,8 +2,8 @@ const xhr = require('xhr-request')
 
 var get = require('simple-get')
 
-var opts = {
-  url: 'http://localhost:6379/hmset',
+/*var opts = {
+  url: 'http://rad.wtf/redis/',
   body: JSON.stringify({key:'test', value:'this is the POST body'})
 }
 get.post(opts, function (err, res) {
@@ -11,7 +11,7 @@ get.post(opts, function (err, res) {
   res.pipe(process.stdout) // `res` is a stream
 })
 
-return
+return*/
 
 const DUMMY = {
   id: 'dog',
@@ -24,17 +24,8 @@ function get() {
 
 function set() {
 
-  xhr('http://localhost:6379/hmset', {
-    method: 'GET',
-    json: true,
-  }, function(err, data) {
-    if (err) throw err
-    console.log('got ArrayBuffer result: ', data)
-  })
-
-  return
-  xhr('http://localhost:6379/hmset', {
-      method: 'GET',
+  xhr('http://rad.wtf/redis', {
+      method: 'POST',
       json: true,
       body: { foo: 'bar' },
     }, function(err, data) {
