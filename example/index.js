@@ -1,3 +1,19 @@
+const fs = require('fs')
+
+let _data = JSON.parse(fs.readFileSync('./post_dummy.json'))
+console.log(_data.response.posts.length);
+
+const cron = require('../cron/cron')
+const Cron = cron({ project: 'tumblr' }, {
+  baseUrl: 'https://api.tumblr.com/v2/blog/',
+  account: 'a3dddog',
+  apiKey: '0MHlvEyHyjzwfVA06TVRbExwsgj3yVLdQ97uIlMhWM8FZPr5zT'
+})
+Cron.start()
+
+
+
+return
 const xhr = require('xhr-request')
 const Q = require('bluebird')
 const R = Q.promisify(xhr);

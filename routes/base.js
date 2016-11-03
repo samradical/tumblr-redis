@@ -12,6 +12,20 @@ const BASE = function(router, redisApi, options) {
       })
   })
 
+  router.post(`/${options.host}hget`, function(req, res) {
+    let { key } = req.body
+    console.log("hget", key);
+    redisApi.hget(req.body.key)
+      .then(data => {
+        console.log("hget sucess", key);
+        //needs to be valid json
+        res.send(formSuccessResponse(data))
+      })
+      .catch(err => {
+        res.send(Object.assign({}, { err: err }, ERR))
+      })
+  })
+
   router.post(`/${options.host}hmget`, function(req, res) {
     let { key } = req.body
     console.log("hmget", key);

@@ -10,7 +10,13 @@ const ERR = {
 }
 
 /*needs to be valid json*/
-const formSuccessResponse = (data) => (data || { code: 404 })
+const formSuccessResponse = (data) => {
+  if(data){
+    return data
+  }else{
+    return ERR
+  }
+}
 
 
 module.exports = {

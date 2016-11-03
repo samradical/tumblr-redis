@@ -1,5 +1,6 @@
 var express = require('express');
 
+const Cron = require('./cron/cron')
 const Server = require('./server')
 //redis
 const api = require('./redis_api')
@@ -7,6 +8,11 @@ const api = require('./redis_api')
 const routes = require('./routes/index')
 const {BASE_OPTIONS} = require('./routes/constants')
 const API = (() => {
+
+
+  function cron(options){
+    Cron.start(api)
+  }
 
   /*
   start a new express sever
